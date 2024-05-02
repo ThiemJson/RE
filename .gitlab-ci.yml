@@ -1,0 +1,62 @@
+image: "python:3.9"
+
+# Change pip's cache directory to be inside the project directory since we can
+# only cache local items.
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+
+# Pip's cache doesn't store the python packages
+# https://pip.pypa.io/en/stable/reference/pip_install/#caching
+#
+# If you want to also cache the installed packages, you have to install
+# them in a virtualenv and cache it as well.
+cache:
+  paths:
+    - .cache/pip
+    - venv/
+
+before_script:
+  - python -V               # Print out python version for debugging
+  - pip install virtualenv
+  - virtualenv venv
+  - source venv/bin/activate
+  - export PYTHONPATH="$PYTHONPATH:."
+  - pip install -e .[dev] #installing development dependencies (coverage) as well
+
+stages:
+  - build
+  - test
+  - check
+
+build-codebase:
+  stage: build
+  script:  
+  - apt-get update -qy
+  - apt-get install -y python-dev-is-python3 python3-pip
+
+test-treqs:
+  stage: test
+  script:
+  - apt-get update -qy
+  - apt-get install -y openjdk-17-jre
+  - java -version
+  - coverage run -m unittest discover
+  - coverage report -m --omit='*/venv/*','tests/*'
+  - coverage xml
+  artifacts:
+    reports:
+     coverage_report:
+      coverage_format: cobertura
+      path: coverage.xml
+  coverage:  '/^TOTAL.+?(\d+\%)$/'
+ # artifacts:
+ #   paths:
+ #     - coverage.xml
+ #   reports:
+ #     cobertura: coverage.xml
+
+treqs-check:
+  stage: check
+  script:
+  - treqs check --verbose

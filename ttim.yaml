@@ -1,0 +1,67 @@
+---
+name: Sample T-Reqs Type and Trace Information Model (TTIM)
+version: 0.0.2
+description: An example how types and traces can be defined in T-Reqs.
+author: Grischa Liebel, Eric Knauss
+types:
+# ###
+# Requirements are in fact system requirements: A condition or capability that must be 
+# met by treqs to satisfy its intended use (which we aim to express through stakeholder 
+# requirements, see below).
+- name: requirement
+  links:
+#   ##
+#   Requirements may relate to any other treqs element and this can be expressed through
+#   the relatesTo trace link. 
+#   They can also be a refinement of another requirements, which can be expressed 
+#   through the hasParent linktype
+#   Finally, they should directly or indirectly (e.g. through a parent) be motivated by 
+#   a stakeholder-requirement
+  - type: relatesTo
+  - type: parent
+    target: requirement
+  - type: hasParent
+    target: requirement
+  - type: addresses
+    target: stakeholder-requirement
+# ###
+# Stakeholder needs describe a challenge that key stakeholders of treqs have. 
+- name: stakeholder-need
+# We do not anticipate the need to trace from stakeholder needs to any elements.
+  links: []
+# ##
+# Stakeholder requirements are requirements from a stakeholder's point of view and 
+# capture our understanding on why somebody would like to use a tool such as treqs
+- name: stakeholder-requirement
+  links:
+#   ##
+#   Stakeholder requirements are often motivated by stakeholder needs; in fact, they are
+#   our interpretation of what is needed to solve the stakeholder's problem
+#   Stakeholder requirements can also relate to other stakeholder requirements.
+  - type: addresses
+    target: stakeholder-need
+  - type: relatesTo
+    target: stakeholder-requirement
+# ###
+# Unittests are automatic tests that check whether a unit of the code works as intended.
+- name: unittest
+  links:
+#   ##
+#   Unittests can relate to any treqs element (linktype: relatesTo).
+#   They can also be a refinement of another test (linktype: hasParent).
+#   They may test an aspect of a requirements (linktype: tests).
+  - type: relatesTo
+  - type: hasParent
+    target: unittest
+  - type: tests
+    required: 'true'
+    target:
+      - requirement
+# ###
+# Information provides additional background or context, but is not a requirement by 
+# itself. 
+- name: information
+  links:
+#   ##
+#   Information can relate to any other treqs element.
+  - type: relatesTo

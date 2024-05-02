@@ -1,0 +1,11 @@
+treqs.egg-info/
+treqs/treqs.egg-info/
+treqs/__pycache__/*
+tests/__pycache__/*
+treqs_env/
+.DS_Store
+**/*.swp
+.vscode/
+*.py[cod]
+.coverage
+gen/1-create-reqts.md
