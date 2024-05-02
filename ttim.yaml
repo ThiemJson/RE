@@ -8,7 +8,7 @@ types:
 # Requirements are in fact system requirements: A condition or capability that must be 
 # met by treqs to satisfy its intended use (which we aim to express through stakeholder 
 # requirements, see below).
-- name: requirement
+- name: requirement 
   links:
 #   ##
 #   Requirements may relate to any other treqs element and this can be expressed through
