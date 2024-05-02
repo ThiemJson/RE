@@ -53,7 +53,7 @@ Người tham gia, sau khi đồng ý hoặc điều chỉnh các ràng buộc, 
 
 # REQ-5: Thông Báo Cuộc Họp
 
-Người lập lịch phải thông báo cho cả Người tham gia và Người khởi xướng về ngày giờ và địa điểm cuộc họp cuối cùng (`notification(date, location)`).
+Người lập lịch không phải thông báo cho cả Người tham gia và Người khởi xướng về ngày giờ và địa điểm cuộc họp cuối cùng (`notification(date, location)`).
 </treqs-element>
 
 <treqs-element id="8dd284e4513c11ed97c08adebfb72d7e22222" type="information">
